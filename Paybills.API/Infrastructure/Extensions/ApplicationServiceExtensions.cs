@@ -10,6 +10,8 @@ using Paybills.API.Domain.Services.Interfaces;
 using Paybills.API.Domain.Services.Impl;
 using Paybills.API.Infrastructure.Data.Repositories.Impl;
 using Paybills.API.Infrastructure.Data.Repositories.Interfaces;
+using Amazon.SimpleEmail;
+using Paybills.API.Infrastructure.Services;
 
 namespace Paybills.API.Extensions
 {
@@ -17,6 +19,8 @@ namespace Paybills.API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddAWSService<IAmazonSimpleEmailService>()
+                    .AddTransient<SESService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IBillService, BillService>();
             services.AddScoped<IBillTypeService, BillTypeService>();
