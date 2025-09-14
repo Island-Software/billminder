@@ -6,10 +6,6 @@ using Paybills.API.Entities;
 using Paybills.API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Paybills.API.Domain.Services.Interfaces;
-using Microsoft.IdentityModel.Tokens;
-using Paybills.API.Infrastructure.Services;
-using System.Collections.Generic;
-using Paybills.API.Application.Controllers;
 
 namespace Paybills.API.Controllers
 {
@@ -18,16 +14,15 @@ namespace Paybills.API.Controllers
         private const int EXPIRATION_TIME_IN_DAYS = 7;
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
+        private readonly IEmailService _emailService;
         
-        private SESService _simpleEmailService;
-
-        public AccountController(IUserService userService, ITokenService tokenService, SESService simpleEmailService)
+        public AccountController(IUserService userService, ITokenService tokenService, IEmailService emailService)
         {
             _tokenService = tokenService;
             _userService = userService;
-            _simpleEmailService = simpleEmailService;
+            _emailService = emailService;
         }
-
+        
         [HttpPost("register")]
         public async Task<ActionResult<LoginResultDto>> Register(RegisterDto registerDto)
         {
@@ -47,7 +42,7 @@ namespace Paybills.API.Controllers
             
             await _userService.CreateAsync(user);
 
-            await SendEmailVerification(user);
+            await _emailService.SendVerificationEmail(user);
 
             return new LoginResultDto
             {
@@ -55,33 +50,6 @@ namespace Paybills.API.Controllers
                 Token = _tokenService.CreateToken(user, EXPIRATION_TIME_IN_DAYS),
                 UserId = user.Id
             };
-        }
-
-        private async Task<bool> SendEmailVerification(AppUser user)
-        {
-            if (user.Email.IsNullOrEmpty()) return false;
-            
-            var result = await _simpleEmailService.SendEmailAsync(
-                new List<string>() { user.Email },
-                null,
-                null,
-                GenerateVerificationEmail(user.UserName, user.Email, user.EmailToken),
-                "",
-                "Required step - Email verification",
-                "admin@billminder.com.br");
-
-            return result != string.Empty;
-        }
-
-        private string GenerateVerificationEmail(string userName, string email, string emailToken)
-        {
-            var verificationEmail = Consts.VerificationEmail;
-
-            verificationEmail = verificationEmail.Replace("{username}", userName);
-            verificationEmail = verificationEmail.Replace("<email>", email);
-            verificationEmail = verificationEmail.Replace("<email-token>", emailToken);
-
-            return verificationEmail;
         }
 
         [HttpPost("login")]        

@@ -1,19 +1,19 @@
-using Paybills.API.Data;
-using Paybills.API.Helpers;
-using Paybills.API.Interfaces;
-using Paybills.API.Services;
+using Amazon.SimpleEmail;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Paybills.API.Data;
 using Paybills.API.Domain.Services;
-using Paybills.API.Domain.Services.Interfaces;
 using Paybills.API.Domain.Services.Impl;
+using Paybills.API.Domain.Services.Interfaces;
+using Paybills.API.Helpers;
 using Paybills.API.Infrastructure.Data.Repositories.Impl;
 using Paybills.API.Infrastructure.Data.Repositories.Interfaces;
-using Amazon.SimpleEmail;
 using Paybills.API.Infrastructure.Services;
+using Paybills.API.Interfaces;
+using Paybills.API.Services;
 
-namespace Paybills.API.Extensions
+namespace Paybills.API.Infrastructure.Extensions
 {
     public static class ApplicationServiceExtensions
     {
@@ -32,6 +32,7 @@ namespace Paybills.API.Extensions
             services.AddScoped<IBillTypeRepository, BillTypeRepository>();
             services.AddScoped<IReceivingRepository, ReceivingRepository>();
             services.AddScoped<IReceivingTypeRepository, ReceivingTypeRepository>();
+            services.AddScoped<IEmailService, EmailService>();
 
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 

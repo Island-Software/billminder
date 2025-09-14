@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Paybills.API.Infrastructure.Services;
 using Paybills.API.Interfaces;
-using Paybills.API.Services;
 
 namespace Paybills.API.Controllers
 {
@@ -58,41 +57,6 @@ namespace Paybills.API.Controllers
             }
 
             return BadRequest();
-        }
-
-        [HttpPost]
-        [Route("send-verification-email")]
-        public async Task<ActionResult> SendVerificationEmail()
-        {
-            var user = await _userRepository.GetUserByIdAsync(GetUserId());
-
-            if (user == null)
-                return NotFound();
-
-            if (user.EmailValidated)
-                return BadRequest("Email already validated");
-
-            var emailValidator = new EmailAddressAttribute();
-
-            if (!emailValidator.IsValid(user.Email))
-                return BadRequest("Invalid email");
-
-            var emailToken = TokenService.CreateEmailToken(user);
-
-            user.EmailToken = emailToken;
-
-            _userRepository.Update(user);
-
-            if (await _userRepository.SaveAllAsync())
-            {
-                var emailBody = Consts.VerificationEmail.Replace("<email>", user.Email).Replace("<email-token>", emailToken).Replace("{username}", user.UserName);
-
-                await _simpleEmailService.SendEmailAsync(user.Email, "Billminder - Confirm your email", emailBody);
-
-                return Ok();
-            }
-
-            return BadRequest("Failed to send verification email");
         }
     }
 }
