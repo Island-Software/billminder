@@ -4,22 +4,17 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Paybills.API.Controllers;
 using Paybills.API.Infrastructure.Services;
 using Paybills.API.Interfaces;
 
-namespace Paybills.API.Controllers
+namespace Paybills.API.Application.Controllers.Email
 {
     [Authorize]
-    public class EmailController : BaseApiController
+    public class EmailController(SESService simpleEmailService, IUserRepository userRepository)
+        : BaseApiController
     {
-        private readonly SESService _simpleEmailService;
-        private readonly IUserRepository _userRepository;
-
-        public EmailController(SESService simpleEmailService, IUserRepository userRepository)
-        {
-            _userRepository = userRepository;
-            _simpleEmailService = simpleEmailService;
-        }
+        private readonly SESService _simpleEmailService = simpleEmailService;
 
         [AllowAnonymous]
         [HttpGet]
@@ -37,7 +32,7 @@ namespace Paybills.API.Controllers
             if (!emailValidator.IsValid(email))
                 return BadRequest("Invalid email");
 
-            var user = await _userRepository.GetUserByEmailAsync(email);
+            var user = await userRepository.GetUserByEmailAsync(email);
 
             if (user == null)
                 return NotFound();
@@ -49,9 +44,9 @@ namespace Paybills.API.Controllers
 
                 user.EmailValidated = true;
 
-                _userRepository.Update(user);
+                userRepository.Update(user);
 
-                await _userRepository.SaveAllAsync();
+                await userRepository.SaveAllAsync();
 
                 return Ok();
             }

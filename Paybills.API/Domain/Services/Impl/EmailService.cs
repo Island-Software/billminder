@@ -22,14 +22,16 @@ namespace Paybills.API.Domain.Services.Impl
         public async Task<bool> SendVerificationEmail(AppUser user)
         {
             if (user.Email.IsNullOrEmpty()) return false;
+            
+            var emailContent = GenerateVerificationEmail(user.UserName, user.Email, user.EmailToken);
 
             var result = await _simpleEmailService.SendEmailAsync(
                 new List<string>() { user.Email },
                 null,
                 null,
-                GenerateVerificationEmail(user.UserName, user.Email, user.EmailToken),
-                "",
-                "Required step - Email verification",
+                emailContent,
+                emailContent,
+                "Billminder App - Required step - Email verification",
                 "admin@billminder.com.br");
 
             return result != string.Empty;

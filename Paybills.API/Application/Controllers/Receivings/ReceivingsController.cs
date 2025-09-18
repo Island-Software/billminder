@@ -12,7 +12,7 @@ using Paybills.API.DTOs;
 using Paybills.API.Extensions;
 using Paybills.API.Helpers;
 
-namespace Paybills.API.Application.Controllers
+namespace Paybills.API.Application.Controllers.Receivings
 {
     [Authorize]
     public class ReceivingsController : BaseApiController
