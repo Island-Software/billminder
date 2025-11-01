@@ -23,18 +23,18 @@ jobs:
     - name: Upload app files to VM
       uses: appleboy/scp-action@v1.0.0
       with:
-        host: ${{ secrets.AZURE_VM_HOST }}
-        username: ${{ secrets.AZURE_VM_USER }}
-        key: ${{ secrets.AZURE_VM_SSH_KEY }}
+        host: ${{ secrets.VM_HOST }}
+        username: ${{ secrets.VM_USER }}
+        key: ${{ secrets.VM_SSH_KEY }}
         source: ./publish/*
         target: /var/www/billminder-api
 
     - name: Restart systemd service on VM
       uses: appleboy/ssh-action@v1.0.3
       with:
-        host: ${{ secrets.AZURE_VM_HOST }}
-        username: ${{ secrets.AZURE_VM_USER }}
-        key: ${{ secrets.AZURE_VM_SSH_KEY }}
+        host: ${{ secrets.VM_HOST }}
+        username: ${{ secrets.VM_USER }}
+        key: ${{ secrets.VM_SSH_KEY }}
         script: |
           sudo systemctl daemon-reload
           sudo systemctl restart billminder-api.service
