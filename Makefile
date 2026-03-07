@@ -4,9 +4,6 @@ build-all:
 build-api:
 	dotnet build
 
-build-client:
-	cd client && ng build
-
 docker-build:
 	docker build -t nilsojr/paybills-api:latest . 
 
