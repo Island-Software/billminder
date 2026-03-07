@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +12,7 @@ using Paybills.API.DTOs;
 using Paybills.API.Extensions;
 using Paybills.API.Helpers;
 
-namespace Paybills.API.Application.Controllers
+namespace Paybills.API.Application.Controllers.Receivings
 {
     [Authorize]
     public class ReceivingsController : BaseApiController
@@ -33,6 +34,13 @@ namespace Paybills.API.Application.Controllers
         [Route("name/{username}")]
         public async Task<ActionResult<IEnumerable<ReceivingDto>>> GetReceivings(string username, [FromQuery] UserParams userParams)
         {
+            var user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (user == null || user != username)
+            {
+                return Unauthorized("You are not authorized to access this resource.");
+            }
+            
             var receivings = await _receivingService.GetAsync(username, userParams);
 
             Response.AddPaginationHeader(receivings.CurrentPage, receivings.PageSize, receivings.TotalCount, receivings.TotalPages);
@@ -46,13 +54,31 @@ namespace Paybills.API.Application.Controllers
         [Route("name/{username}/{month}/{year}")]
         public async Task<ActionResult<IEnumerable<ReceivingDto>>> GetByDate(string username, int month, int year, [FromQuery] UserParams userParams)
         {
-            var receivings = await _receivingService.GetByDateAsync(username, month, year, userParams);
+            var user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            Response.AddPaginationHeader(receivings.CurrentPage, receivings.PageSize, receivings.TotalCount, receivings.TotalPages);
+            if (user == null || user != username)
+            {
+                return Unauthorized("You are not authorized to access this resource.");
+            }
+            
+            if (userParams.PageSize > 0)
+            {
+                var receivings = await _receivingService.GetByDateAsync(username, month, year, userParams);
 
-            var receivingsToReturn = _mapper.Map<IEnumerable<ReceivingDto>>(receivings);
+                Response.AddPaginationHeader(receivings.CurrentPage, receivings.PageSize, receivings.TotalCount, receivings.TotalPages);
 
-            return Ok(receivingsToReturn);
+                var receivingsToReturn = _mapper.Map<IEnumerable<ReceivingDto>>(receivings);
+
+                return Ok(receivingsToReturn);
+            }
+            else
+            {
+                var receivings = await _receivingService.GetByDateAsync(username, month, year);
+
+                var receivingsToReturn = _mapper.Map<IEnumerable<ReceivingDto>>(receivings);
+
+                return Ok(receivingsToReturn);
+            }
         }
         
         [HttpGet("{id}")]

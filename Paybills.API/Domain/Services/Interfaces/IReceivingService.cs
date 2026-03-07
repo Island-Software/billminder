@@ -13,6 +13,7 @@ namespace Paybills.API.Domain.Services.Interfaces
         Task<bool> CopyToNextMonth(int userId, int currentMonth, int currentYear);
         Task<PagedList<Receiving>> GetAsync(string username, UserParams userParams);
         Task<PagedList<Receiving>> GetByDateAsync(string username, int month, int year, UserParams userParams);
+        Task<List<Receiving>> GetByDateAsync(string username, int month, int year);
         Task<Receiving> GetByIdAsync(int id);
         Task<bool> AddToUser(int userId, int receivingId);
         Task<bool> AddToUser(int userId, IEnumerable<Receiving> receivings);

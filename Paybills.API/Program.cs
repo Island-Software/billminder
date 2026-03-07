@@ -19,6 +19,11 @@ namespace Paybills.API
     {
         public static async Task Main(string[] args)
         {
+            var tokenKey = Environment.GetEnvironmentVariable("TOKEN_KEY");
+            if (string.IsNullOrWhiteSpace(tokenKey))
+            {
+                throw new InvalidOperationException("Environment variable TOKEN_KEY is not set. Application cannot start.");
+            }
             ConfigureLogging();
 
             var host = CreateHostBuilder(args).Build();
@@ -36,12 +41,13 @@ namespace Paybills.API
                     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
                     logger.LogError(e, "An error ocurred during migration");
                 }
-            }            
+            }
 
             await host.RunAsync();
         }
 
-        private static void ConfigureLogging() {
+        private static void ConfigureLogging()
+        {
             var appRootDirectory = Directory.GetCurrentDirectory();
             var dotEnvFilePath = Path.Combine(appRootDirectory, ".env");
             DotEnv.Load(dotEnvFilePath);
@@ -52,7 +58,7 @@ namespace Paybills.API
                 // .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true)
                 .Build();
 
-                
+
 
             // Log.Logger = new LoggerConfiguration()
             // //     .Enrich.FromLogContext()

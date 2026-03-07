@@ -115,6 +115,16 @@ namespace Paybills.API.Infrastructure.Data.Repositories.Impl
             return await PagedList<Receiving>.CreateAsync(query, userParams.PageNumber, userParams.PageSize);
         }
 
+        public Task<List<Receiving>> GetByDateAsync(string username, int month, int year)
+        {
+            return _context.Receivings
+                .Include(r => r.ReceivingType)
+                .Where(r => r.Users.Any(u => u.UserName == username) && r.Month == month && r.Year == year)
+                .OrderBy(r => r.Id)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
         public async Task<Receiving> GetByIdAsync(int id) => await _context.Receivings.Include(r => r.ReceivingType).SingleAsync(r => r.Id == id);
 
         public Task<bool> UpdateAsync(Receiving entity)
@@ -123,5 +133,6 @@ namespace Paybills.API.Infrastructure.Data.Repositories.Impl
             
             return SaveAllAsync();
         }
+        
     }
 }

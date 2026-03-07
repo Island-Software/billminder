@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Http;
+using Paybills.API.Infrastructure.Extensions;
 
 namespace Paybills.API
 {
@@ -26,7 +27,15 @@ namespace Paybills.API
             services.AddApplicationServices(_config);
             services.AddControllers();
             services.AddIdentityServices(_config);
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -36,12 +45,19 @@ namespace Paybills.API
 
             app.UseMiddleware<ExceptionMiddleware>();
 
-            app.UseHttpsRedirection();
+            if (env.EnvironmentName == "Development")
+            {
+                app.UseDeveloperExceptionPage();
+            } 
+            else
+            {
+                app.UseHttpsRedirection();                
+            }
 
             app.UseRouting();
 
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins(
-                "https://localhost:4200", 
+                "https://localhost:4200",                 
                 "http://localhost:4200",
                 "https://billminder.com.br"));
 

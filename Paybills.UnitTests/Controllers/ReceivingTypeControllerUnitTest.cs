@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Paybills.API.Application.Controllers;
+using Paybills.API.Application.Controllers.Receivings;
 using Paybills.API.Application.DTOs.ReceivingType;
 using Paybills.API.Domain.Entities;
 using Paybills.API.Domain.Services.Interfaces;

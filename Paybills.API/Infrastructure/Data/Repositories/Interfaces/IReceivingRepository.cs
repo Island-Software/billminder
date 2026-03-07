@@ -14,6 +14,7 @@ namespace Paybills.API.Infrastructure.Data.Repositories.Interfaces
         Task<bool> SaveAllAsync();
         Task<PagedList<Receiving>> GetAsync(string username, UserParams userParams);
         Task<PagedList<Receiving>> GetByDateAsync(string username, int month, int year, UserParams userParams);
+        Task<List<Receiving>> GetByDateAsync(string username, int month, int year);
         Task<Receiving> GetByIdAsync(int id);
         Task<bool> AddToUserAsync(int userId, int receivingId);
         Task<bool> AddToUserAsync(int userId, IEnumerable<Receiving> receivings);

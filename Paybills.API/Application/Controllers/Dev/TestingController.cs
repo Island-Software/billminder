@@ -1,16 +1,27 @@
-using Paybills.API.Data;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
+using Paybills.API.Controllers;
+using Paybills.API.Domain.Services.Interfaces;
+using Paybills.API.Entities;
 
-namespace Paybills.API.Controllers
+namespace Paybills.API.Application.Controllers.Dev
 {
-    public class TestingController : BaseApiController
+    public class TestingController(IHostEnvironment environment, IEmailService emailService) : BaseApiController
     {
-        private readonly IHostEnvironment _environment;
-        private readonly DataContext _context;
-        public TestingController(DataContext context, IHostEnvironment environment)
+        [HttpPost("test-email")]
+        public async Task<ActionResult> TestEmail()
         {
-            _context = context;
-            _environment = environment;
+            if (!environment.IsDevelopment()) return Unauthorized();
+
+            await emailService.SendVerificationEmail(new AppUser
+            {
+                UserName = "Nilso",
+                Email = "nilsojr@gmail.com",
+                EmailToken = "1234567890"
+            });
+
+            return Ok("Email sent.");
         }
     }
 }

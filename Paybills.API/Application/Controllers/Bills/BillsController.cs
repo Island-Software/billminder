@@ -6,9 +6,9 @@ using Paybills.API.Helpers;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Paybills.API.Services;
 using Paybills.API.Domain.Services.Interfaces;
 using Paybills.API.Domain.Entities;
+using System.Security.Claims;
 
 namespace Paybills.API.Controllers
 {
@@ -30,6 +30,13 @@ namespace Paybills.API.Controllers
         [Route("name/{username}")]
         public async Task<ActionResult<IEnumerable<BillDto>>> GetBills(string username, [FromQuery] UserParams userParams)
         {
+            var user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (user == null || user != username)
+            {
+                return Unauthorized("You are not authorized to access this resource.");
+            }
+
             var bills = await _service.GetBillsAsync(username, userParams);
 
             Response.AddPaginationHeader(bills.CurrentPage, bills.PageSize, bills.TotalCount, bills.TotalPages);
@@ -43,12 +50,19 @@ namespace Paybills.API.Controllers
         [Route("name/{username}/{month}/{year}")]
         public async Task<ActionResult<IEnumerable<BillDto>>> GetBillsByDate(string username, int month, int year, [FromQuery] UserParams userParams)
         {
+            var user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (user == null || user != username)
+            {
+                return Unauthorized("You are not authorized to access this resource.");
+            }
+
             if (userParams.PageSize > 0)
             {
                 var bills = await _service.GetBillsByDateAsync(username, month, year, userParams);
 
                 Response.AddPaginationHeader(bills.CurrentPage, bills.PageSize, bills.TotalCount, bills.TotalPages);
-                
+
                 var billsToReturn = _mapper.Map<IEnumerable<BillDto>>(bills);
 
                 return Ok(billsToReturn);

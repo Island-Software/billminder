@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: billminder-node
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: billminder-node
+  template:
+    metadata:
+      labels:
+        app: billminder-node
+    spec:
+      containers:
+      - name: billminder-container
+        image: docker.io/nilsojr/paybills-api:latest
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "1024Mi"
+            cpu: "1000m"
+        env:
+        - name: PG_HOST
+          value: "192.168.0.3"
+        - name: PG_PORT
+          value: "5432"
+        - name: PG_DB
+          value: "billminder-db"
+        - name: PG_USER
+          value: "user"
+        - name: PG_PASSWORD
+          value: "password"
+        - name: TOKEN_KEY
+          value: "a very large token key for jwt encription @$ a very large token key for jwt encription"

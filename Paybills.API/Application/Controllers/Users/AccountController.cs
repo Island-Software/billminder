@@ -14,13 +14,15 @@ namespace Paybills.API.Controllers
         private const int EXPIRATION_TIME_IN_DAYS = 7;
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
-
-        public AccountController(IUserService userService, ITokenService tokenService)
+        private readonly IEmailService _emailService;
+        
+        public AccountController(IUserService userService, ITokenService tokenService, IEmailService emailService)
         {
             _tokenService = tokenService;
             _userService = userService;
+            _emailService = emailService;
         }
-
+        
         [HttpPost("register")]
         public async Task<ActionResult<LoginResultDto>> Register(RegisterDto registerDto)
         {
@@ -32,12 +34,15 @@ namespace Paybills.API.Controllers
             var user = new AppUser
             {
                 UserName = registerDto.UserName.ToLower(),
+                Email = registerDto.Email,
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
                 PasswordSalt = hmac.Key
             };
 
             
             await _userService.CreateAsync(user);
+
+            await _emailService.SendVerificationEmail(user);
 
             return new LoginResultDto
             {

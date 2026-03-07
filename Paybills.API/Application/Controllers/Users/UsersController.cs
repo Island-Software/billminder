@@ -12,6 +12,8 @@ using System.Security.Cryptography;
 using System.Text;
 using Paybills.API.Domain.Services.Interfaces;
 using Paybills.API.Application.Controllers;
+using Paybills.API.Infrastructure.Services;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Paybills.API.Controllers
 {
@@ -22,9 +24,11 @@ namespace Paybills.API.Controllers
         private readonly IUserService _userRepository;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
+        private SESService _simpleEmailService;
 
-        public UsersController(IUserService userRepository, IMapper mapper, ITokenService tokenService)
+        public UsersController(IUserService userRepository, IMapper mapper, ITokenService tokenService, SESService simpleEmailService)
         {
+            _simpleEmailService = simpleEmailService;
             _tokenService = tokenService;
             _mapper = mapper;
             _userRepository = userRepository;
@@ -81,7 +85,26 @@ namespace Paybills.API.Controllers
 
             await _userRepository.UpdateAsync(user);
 
+            if (validateEmail)
+                await SendEmailVerification(user);
+
             return Ok();
+        }
+
+        private async Task<bool> SendEmailVerification(AppUser user)
+        {
+            if (user.Email.IsNullOrEmpty()) return false;
+            
+            var result = await _simpleEmailService.SendEmailAsync(
+                new List<string>() { user.Email },
+                null,
+                null,
+                GenerateVerificationEmail(user.UserName, user.Email, user.EmailToken),
+                "",
+                "Required step - Email verification",
+                "admin@billminder.com.br");
+
+            return result != string.Empty;
         }
 
         private string GenerateVerificationEmail(string userName, string email, string emailToken)

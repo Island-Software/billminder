@@ -1,10 +1,10 @@
-using Paybills.API.Data;
-using Paybills.API.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Paybills.API.Controllers;
+using Paybills.API.Data;
+using Paybills.API.Entities;
 
-
-namespace Paybills.API.Controllers
+namespace Paybills.API.Application.Controllers.Dev
 {
     
     public class BuggyController : BaseApiController
