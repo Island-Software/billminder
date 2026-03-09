@@ -83,10 +83,10 @@ namespace Paybills.API.Controllers
                 user.PasswordSalt = hmac.Key;
             }
 
-            await _userRepository.UpdateAsync(user);
-
             if (validateEmail)
                 await SendEmailVerification(user);
+
+            await _userRepository.UpdateAsync(user);
 
             return Ok();
         }

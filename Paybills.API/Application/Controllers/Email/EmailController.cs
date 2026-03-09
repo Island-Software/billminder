@@ -40,7 +40,7 @@ namespace Paybills.API.Application.Controllers.Email
             if (user.EmailToken == emailToken)
             {
                 if (user.EmailValidated)
-                    return BadRequest("Email already validated");
+                    return Redirect("/email/email-already-validated.html");
 
                 user.EmailValidated = true;
 
@@ -48,7 +48,7 @@ namespace Paybills.API.Application.Controllers.Email
 
                 await userRepository.SaveAllAsync();
 
-                return Ok();
+                return Redirect("/email/validation-success.html");
             }
 
             return BadRequest();
