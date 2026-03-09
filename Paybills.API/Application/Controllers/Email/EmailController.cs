@@ -1,10 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Paybills.API.Controllers;
 using Paybills.API.Infrastructure.Services;
@@ -13,11 +11,10 @@ using Paybills.API.Interfaces;
 namespace Paybills.API.Application.Controllers.Email
 {
     [Authorize]
-    public class EmailController(SESService simpleEmailService, IUserRepository userRepository, IWebHostEnvironment webHostEnvironment)
+    public class EmailController(SESService simpleEmailService, IUserRepository userRepository)
         : BaseApiController
     {
         private readonly SESService _simpleEmailService = simpleEmailService;
-        private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
 
         [AllowAnonymous]
         [HttpGet]
@@ -43,11 +40,7 @@ namespace Paybills.API.Application.Controllers.Email
             if (user.EmailToken == emailToken)
             {
                 if (user.EmailValidated)
-                {
-                    var alreadyValidatedPath = Path.Combine(_webHostEnvironment.WebRootPath, "email", "email-already-validated.html");
-                    var alreadyValidatedContent = await System.IO.File.ReadAllTextAsync(alreadyValidatedPath);
-                    return Content(alreadyValidatedContent, "text/html");
-                }
+                    return Redirect("/email/email-already-validated.html");
 
                 user.EmailValidated = true;
 
@@ -55,9 +48,7 @@ namespace Paybills.API.Application.Controllers.Email
 
                 await userRepository.SaveAllAsync();
 
-                var successPath = Path.Combine(_webHostEnvironment.WebRootPath, "email", "validation-success.html");
-                var successContent = await System.IO.File.ReadAllTextAsync(successPath);
-                return Content(successContent, "text/html");
+                return Redirect("/email/validation-success.html");
             }
 
             return BadRequest();
