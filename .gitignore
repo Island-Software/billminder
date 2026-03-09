@@ -455,4 +455,3 @@ UsersPassword.json
 coverage/
 scripts/
 .env
-/Paybills.API/wwwroot
