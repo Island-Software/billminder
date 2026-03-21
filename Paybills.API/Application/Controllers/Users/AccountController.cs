@@ -68,6 +68,8 @@ namespace Paybills.API.Controllers
                 if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid username/password");
             }
 
+            if (!user.EmailValidated) return Unauthorized("Email not validated. Please check your inbox.");
+
             return new LoginResultDto
             {
                 Username = user.UserName,
