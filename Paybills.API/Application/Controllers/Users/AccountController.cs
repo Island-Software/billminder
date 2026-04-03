@@ -68,6 +68,8 @@ namespace Paybills.API.Controllers
                 if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid username/password");
             }
 
+            await _userService.UpdateLastActiveAsync(user.Id);
+
             return new LoginResultDto
             {
                 Username = user.UserName,

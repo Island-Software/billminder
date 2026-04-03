@@ -53,5 +53,10 @@ namespace Paybills.API.Domain.Services.Impl
         {
             return await _userRepository.ExistsAsync(userName);
         }
+
+        public async Task<bool> UpdateLastActiveAsync(int userId)
+        {
+            return await _userRepository.UpdateLastActiveAsync(userId);
+        }
     }
 }

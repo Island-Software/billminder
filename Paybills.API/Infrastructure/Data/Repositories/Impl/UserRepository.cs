@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Paybills.API.Entities;
 using Paybills.API.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Paybills.API.Data
 {
@@ -36,6 +37,15 @@ namespace Paybills.API.Data
         public async Task<AppUser> GetUserByEmailAsync(string email)
         {
             return await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<bool> UpdateLastActiveAsync(int userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null) return false;
+
+            user.LastActive = DateTime.UtcNow;
+            return await SaveAllAsync();
         }
     }
 }
