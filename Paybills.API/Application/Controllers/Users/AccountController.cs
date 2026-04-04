@@ -69,6 +69,8 @@ namespace Paybills.API.Controllers
             }
 
             await _userService.UpdateLastActiveAsync(user.Id);
+            
+            if (!user.EmailValidated) return Unauthorized("Email not validated. Please check your inbox.");
 
             return new LoginResultDto
             {
