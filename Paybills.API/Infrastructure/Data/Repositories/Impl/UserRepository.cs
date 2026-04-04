@@ -13,7 +13,7 @@ namespace Paybills.API.Data
 
         public async Task<IEnumerable<AppUser>> GetUsersAsync() => await _context.Users.Include(u => u.Bills).ToListAsync();
 
-        public async Task<AppUser> GetUserByIdAsync(int id) => await _context.Users.Include(u => u.Bills).SingleAsync(u => u.Id == id);
+        public async Task<AppUser> GetUserByIdAsync(int id) => await _context.Users.Include(u => u.Bills).SingleOrDefaultAsync(u => u.Id == id);
 
         public async Task<AppUser> GetUserByUsernameWithDetailsAsync(string username)
         {
