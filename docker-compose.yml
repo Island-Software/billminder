@@ -42,21 +42,21 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-  paybills-api:
-    depends_on: 
-      - db
-    image : nilsojr/paybills-api:latest
-    ports:
-      - "5000:5000"
-    environment:
-      - TOKEN_KEY=$TOKEN_KEY
-      - ASPNETCORE_ENVIRONMENT=$ASPNETCORE_ENVIRONMENT
-      - PG_HOST=db
-      - PG_USER=$PG_USER
-      - PG_DB=$PG_DB
-      - PG_PASSWORD=$PG_PASSWORD
-      - ASPNETCORE_HTTP_PORT=http://+:5000
-      - ASPNETCORE_URLS=http://+:5000
+  # paybills-api:
+  #   depends_on: 
+  #     - db
+  #   image : nilsojr/paybills-api:latest
+  #   ports:
+  #     - "5000:5000"
+  #   environment:
+  #     - TOKEN_KEY=$TOKEN_KEY
+  #     - ASPNETCORE_ENVIRONMENT=$ASPNETCORE_ENVIRONMENT
+  #     - PG_HOST=db
+  #     - PG_USER=$PG_USER
+  #     - PG_DB=$PG_DB
+  #     - PG_PASSWORD=$PG_PASSWORD
+  #     - ASPNETCORE_HTTP_PORT=http://+:5000
+  #     - ASPNETCORE_URLS=http://+:5000
 
 volumes:
   pgdata:

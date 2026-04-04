@@ -26,6 +26,12 @@ namespace Paybills.API.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // Only configure if not already configured (e.g., by dependency injection or tests)
+            if (optionsBuilder.IsConfigured)
+            {
+                return;
+            }
+
             var pgHost = Environment.GetEnvironmentVariable("PG_HOST");
             var pgPort = Environment.GetEnvironmentVariable("PG_PORT");
             var pgUser = Environment.GetEnvironmentVariable("PG_USER");

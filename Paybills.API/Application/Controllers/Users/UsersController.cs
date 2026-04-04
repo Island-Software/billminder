@@ -34,19 +34,14 @@ namespace Paybills.API.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
-        {
-            var users = await _userRepository.GetUsersAsync();
-
-            var usersToReturn = _mapper.Map<IEnumerable<UserDto>>(users);
-            return Ok(usersToReturn);
-        }
-
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)
         {
-            return _mapper.Map<UserDto>(await _userRepository.GetUserByIdAsync(id));
+            var user = await _userRepository.GetUserByIdAsync(id);
+
+            if (user == null) return NotFound();
+
+            return _mapper.Map<UserDto>(user);
         }
 
         [HttpGet]
@@ -94,7 +89,7 @@ namespace Paybills.API.Controllers
         private async Task<bool> SendEmailVerification(AppUser user)
         {
             if (user.Email.IsNullOrEmpty()) return false;
-            
+
             var result = await _simpleEmailService.SendEmailAsync(
                 new List<string>() { user.Email },
                 null,

@@ -13,5 +13,6 @@ namespace Paybills.API.Domain.Services.Interfaces
         Task<AppUser> GetUserByIdAsync(int id);
         Task<AppUser> GetUserByUserNameWithDetailsAsync(string userName);
         Task<bool> UpdateAsync(AppUser user);
+        Task<bool> UpdateLastActiveAsync(int userId);
     }
 }

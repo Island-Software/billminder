@@ -16,5 +16,7 @@ namespace Paybills.API.Interfaces
         Task<AppUser> GetUserByEmailAsync(string email);
 
         Task<bool> ExistsAsync(string userName);
+
+        Task<bool> UpdateLastActiveAsync(int userId);
     }
 }
