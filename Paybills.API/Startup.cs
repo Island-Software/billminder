@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Http;
 using Paybills.API.Infrastructure.Extensions;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Paybills.API
 {
@@ -36,23 +38,40 @@ namespace Paybills.API
                            .AllowAnyHeader();
                 });
             });
+
+            services.AddProblemDetails(options =>
+            {
+                options.CustomizeProblemDetails = context =>
+                {
+                    context.ProblemDetails.Instance = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+                    context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
+
+                    var activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
+                    context.ProblemDetails.Extensions.TryAdd("traceId", activity?.Id);
+                };
+            });
+
+            services.AddExceptionHandler<ProblemExceptionHandler>();
+            services.AddExceptionHandler<GeneralExceptionHandler>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseExceptionHandler();
+            // Exception handling is done via IExceptionHandler implementations
+
+
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 
-            app.UseMiddleware<ExceptionMiddleware>();
-
-            if (env.EnvironmentName == "Development")
-            {
-                app.UseDeveloperExceptionPage();
-            } 
-            else
-            {
-                app.UseHttpsRedirection();                
-            }
+            // if (env.EnvironmentName == "Development")
+            // {
+            //     app.UseDeveloperExceptionPage();
+            // } 
+            // else
+            // {PP
+            //     app.UseHttpsRedirection();                
+            // }
 
             app.UseRouting();
 
@@ -66,7 +85,6 @@ namespace Paybills.API
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
             app.Use(async (context, next) =>
             {
