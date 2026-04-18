@@ -32,8 +32,6 @@ namespace Paybills.API.Domain.Services.Impl
 
         public async Task<AppUser> GetUserByUserNameAsync(string userName)
         {            
-            throw new ProblemException("Error retrieving user by username", "abc");
-            // throw new Exception("Error retrieving user by username");
             return await _userRepository.GetUserByUsernameAsync(userName);
         }
 

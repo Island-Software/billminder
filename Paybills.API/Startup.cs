@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Paybills.API.Infrastructure.Extensions;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http.Features;
+using Serilog;
 
 namespace Paybills.API
 {
@@ -59,7 +60,6 @@ namespace Paybills.API
         {
             app.UseExceptionHandler();
             // Exception handling is done via IExceptionHandler implementations
-
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
