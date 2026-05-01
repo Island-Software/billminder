@@ -40,7 +40,7 @@ services:
       POSTGRES_PASSWORD: $PG_PASSWORD
       POSTGRES_DB: $PG_DB
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql
 
   # paybills-api:
   #   depends_on: 
