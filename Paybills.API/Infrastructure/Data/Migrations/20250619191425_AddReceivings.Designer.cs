@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Paybills.API.Data;
+using Paybills.API.Infrastructure.Data;
 
 namespace Paybills.API.Data.Migrations
 {

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using Paybills.API.Entities;
 
 namespace Paybills.API.Domain.Entities
 {

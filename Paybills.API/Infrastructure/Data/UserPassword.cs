@@ -1,4 +1,4 @@
-namespace Paybills.API.Data
+namespace Paybills.API.Infrastructure.Data
 {
     public class UserPassword
     {

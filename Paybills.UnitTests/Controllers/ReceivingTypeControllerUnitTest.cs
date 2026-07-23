@@ -9,7 +9,6 @@ using Paybills.API.Application.Controllers.Receivings;
 using Paybills.API.Application.DTOs.ReceivingType;
 using Paybills.API.Domain.Entities;
 using Paybills.API.Domain.Services.Interfaces;
-using Paybills.API.Helpers;
 using Paybills.UnitTests.Utils;
 
 namespace Paybills.UnitTests.Controllers

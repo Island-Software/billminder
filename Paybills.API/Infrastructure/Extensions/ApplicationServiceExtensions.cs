@@ -6,12 +6,13 @@ using Paybills.API.Data;
 using Paybills.API.Domain.Services;
 using Paybills.API.Domain.Services.Impl;
 using Paybills.API.Domain.Services.Interfaces;
-using Paybills.API.Helpers;
+using Paybills.API.Infrastructure.Data;
 using Paybills.API.Infrastructure.Data.Repositories.Impl;
 using Paybills.API.Infrastructure.Data.Repositories.Interfaces;
+using Paybills.API.Infrastructure.Helpers;
 using Paybills.API.Infrastructure.Services;
-using Paybills.API.Interfaces;
-using Paybills.API.Services;
+using Paybills.API.Infrastructure.Services.Impl;
+using Paybills.API.Infrastructure.Services.Interfaces;
 
 namespace Paybills.API.Infrastructure.Extensions
 {

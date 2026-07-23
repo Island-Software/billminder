@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Paybills.API.Helpers
+namespace Paybills.API.Infrastructure.Helpers
 {
     public class PagedList<T> : List<T>
     {

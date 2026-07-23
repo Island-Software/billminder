@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Paybills.API.Domain.Entities;
 using Paybills.API.Domain.Services.Interfaces;
-using Paybills.API.Interfaces;
+using Paybills.API.Infrastructure.Data.Repositories.Interfaces;
 
-namespace Paybills.API.Domain.Services
+namespace Paybills.API.Domain.Services.Impl
 {
     public class BillTypeService : IBillTypeService
     {

@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Paybills.API.Errors;
+using Paybills.API.Infrastructure.Errors;
 
-namespace Paybills.API.Middleware
+namespace Paybills.API.Infrastructure.Middleware
 {
     public class GeneralExceptionHandler : IExceptionHandler
     {

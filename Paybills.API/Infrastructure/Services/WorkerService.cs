@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Paybills.API.Data;
-using Paybills.API.Infrastructure.Services;
+using Paybills.API.Infrastructure.Data;
 
-namespace Paybills.API.Services
+namespace Paybills.API.Infrastructure.Services
 {
     public class WorkerService
     {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Paybills.API.DTOs
+namespace Paybills.API.Application.DTOs.User
 {
     public class LoginDto
     {

@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Paybills.API.Domain.Entities;
 using Paybills.API.Domain.Services.Interfaces;
-using Paybills.API.Entities;
-using Paybills.API.Interfaces;
-using Paybills.API.Middleware;
+using Paybills.API.Infrastructure.Data.Repositories.Interfaces;
 
 namespace Paybills.API.Domain.Services.Impl
 {

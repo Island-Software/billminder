@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Paybills.API.Data;
+using Paybills.API.Infrastructure.Data;
 using Paybills.API.Infrastructure.Helpers;
 using Serilog;
 using Serilog.Sinks.Grafana.Loki;

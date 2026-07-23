@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Paybills.API.Middleware
+namespace Paybills.API.Infrastructure.Middleware
 {
     public class RequestResponseLoggingMiddleware
     {

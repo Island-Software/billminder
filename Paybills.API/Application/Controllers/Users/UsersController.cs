@@ -1,21 +1,19 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Paybills.API.DTOs;
-using Paybills.API.Interfaces;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Paybills.API.Entities;
-using Paybills.API.Services;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
-using Paybills.API.Domain.Services.Interfaces;
-using Paybills.API.Application.Controllers;
-using Paybills.API.Infrastructure.Services;
+using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Paybills.API.Application.DTOs.User;
+using Paybills.API.Domain.Entities;
+using Paybills.API.Domain.Services.Interfaces;
+using Paybills.API.Infrastructure.Services;
+using Paybills.API.Infrastructure.Services.Interfaces;
 
-namespace Paybills.API.Controllers
+namespace Paybills.API.Application.Controllers.Users
 {
     [Authorize]
     public class UsersController : BaseApiController

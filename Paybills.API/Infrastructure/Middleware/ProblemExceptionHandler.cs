@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Paybills.API.Middleware
+namespace Paybills.API.Infrastructure.Middleware
 {
     public class ProblemException : Exception
     {
         public string Error { get; }
-        public string Message { get; }
+        public new string Message { get; }
 
         public ProblemException(string error, string message) : base(message)
         {

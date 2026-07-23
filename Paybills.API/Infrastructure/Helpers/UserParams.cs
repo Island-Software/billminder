@@ -1,4 +1,4 @@
-namespace Paybills.API.Helpers
+namespace Paybills.API.Infrastructure.Helpers
 {
     public class UserParams
     {

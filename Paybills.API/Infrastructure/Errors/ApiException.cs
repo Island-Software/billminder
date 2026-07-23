@@ -1,4 +1,4 @@
-namespace Paybills.API.Errors
+namespace Paybills.API.Infrastructure.Errors
 {
     public class ApiException
     {

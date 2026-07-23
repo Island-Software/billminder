@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Paybills.API.Controllers
+namespace Paybills.API.Application.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

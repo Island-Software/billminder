@@ -1,14 +1,14 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Paybills.API.DTOs;
-using Paybills.API.Entities;
-using Paybills.API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Paybills.API.Domain.Services.Interfaces;
 using Microsoft.Extensions.Logging;
+using Paybills.API.Application.DTOs.User;
+using Paybills.API.Domain.Entities;
+using Paybills.API.Domain.Services.Interfaces;
+using Paybills.API.Infrastructure.Services.Interfaces;
 
-namespace Paybills.API.Controllers
+namespace Paybills.API.Application.Controllers.Users
 {
     public class AccountController : BaseApiController
     {

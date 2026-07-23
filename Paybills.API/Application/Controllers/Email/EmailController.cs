@@ -4,9 +4,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Paybills.API.Controllers;
+using Paybills.API.Infrastructure.Data.Repositories.Interfaces;
 using Paybills.API.Infrastructure.Services;
-using Paybills.API.Interfaces;
 
 namespace Paybills.API.Application.Controllers.Email
 {

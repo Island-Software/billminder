@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Paybills.API.Domain.Entities;
-using Paybills.API.Helpers;
+using Paybills.API.Infrastructure.Helpers;
 
-namespace Paybills.API.Interfaces
+namespace Paybills.API.Infrastructure.Data.Repositories.Interfaces
 {
     // TO-DO: use generics
     public interface IBillRepository

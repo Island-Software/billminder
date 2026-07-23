@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Paybills.API.Data
+namespace Paybills.API.Infrastructure.Data.Repositories.Impl
 {
     public class RepositoryBase
     {

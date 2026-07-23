@@ -1,7 +1,7 @@
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Paybills.API.Controllers
+namespace Paybills.API.Application.Controllers
 {
     public class FallbackController : Controller
     {

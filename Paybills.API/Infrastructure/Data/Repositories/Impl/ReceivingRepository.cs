@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Paybills.API.Data;
 using Paybills.API.Domain.Entities;
-using Paybills.API.Helpers;
 using Paybills.API.Infrastructure.Data.Repositories.Interfaces;
+using Paybills.API.Infrastructure.Helpers;
 
 namespace Paybills.API.Infrastructure.Data.Repositories.Impl
 {

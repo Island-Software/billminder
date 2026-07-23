@@ -1,8 +1,8 @@
 using System.Text.Json;
-using Paybills.API.Helpers;
 using Microsoft.AspNetCore.Http;
+using Paybills.API.Infrastructure.Helpers;
 
-namespace Paybills.API.Extensions
+namespace Paybills.API.Infrastructure.Extensions
 {
     public static class HttpExtensions
     {

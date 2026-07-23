@@ -1,5 +1,3 @@
-using Paybills.API.Extensions;
-using Paybills.API.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Paybills.API.Infrastructure.Extensions;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http.Features;
+using Paybills.API.Infrastructure.Middleware;
 using Serilog;
 
 namespace Paybills.API
