@@ -58,7 +58,10 @@ namespace Paybills.API.Application.Controllers.Users
         [HttpPost("login")]        
         public async Task<ActionResult<LoginResultDto>> Login(LoginDto loginDto)
         {
-            _logger.LogInformation("Login attempt for user {Username}", loginDto.UserName);
+            var sanitizedUserNameForLog = (loginDto.UserName ?? string.Empty)
+                .Replace("\r", string.Empty)
+                .Replace("\n", string.Empty);
+            _logger.LogInformation("Login attempt for user {Username}", sanitizedUserNameForLog);
             
             var user = await _userService.GetUserByUserNameAsync(loginDto.UserName);
 
