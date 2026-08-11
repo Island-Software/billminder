@@ -5,5 +5,6 @@ namespace Paybills.API.Application.DTOs
         public int UserId { get; set; }
         public int CurrentMonth { get; set; }
         public int CurrentYear { get; set; }
+        public bool CopyValues { get; set; }
     }
 }

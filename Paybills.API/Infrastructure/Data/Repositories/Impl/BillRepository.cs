@@ -124,23 +124,23 @@ namespace Paybills.API.Infrastructure.Data.Repositories.Impl
             return await SaveAllAsync();
         }
 
-        public async Task<bool> CopyBillsToNextMonthAsync(int userId, int currentMonth, int currentYear)
+        public async Task<bool> CopyBillsToNextMonthAsync(int userId, int currentMonth, int currentYear, bool copyValues)
         {
-            var bills = await GetBillsAsync(userId, currentMonth, currentYear);
+            var sourceBills = await GetBillsAsync(userId, currentMonth, currentYear);
             var newBills = new List<Bill>();
 
-            foreach (var bill in bills)
+            foreach (var sourceBill in sourceBills)
             {
                 // _context.Entry(bill.BillType).State = EntityState.Unchanged;
 
                 var newBill = new Bill();
-                var billType = await _billTypeRepository.GetByIdAsync(bill.BillType.Id);
+                var billType = await _billTypeRepository.GetByIdAsync(sourceBill.BillType.Id);
 
                 newBill.BillType = billType;
-                newBill.Month = bill.Month;
-                newBill.Year = bill.Year;
-                newBill.Month = bill.Month == 12 ? 1 : bill.Month + 1;
-                newBill.Year = bill.Month == 12 ? bill.Year + 1 : bill.Year;
+                if (copyValues)
+                    newBill.Value = sourceBill.Value;
+                newBill.Month = sourceBill.Month == 12 ? 1 : sourceBill.Month + 1;
+                newBill.Year = sourceBill.Month == 12 ? sourceBill.Year + 1 : sourceBill.Year;
 
                 await CreateAsync(newBill);
 
