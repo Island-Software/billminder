@@ -2,9 +2,10 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Paybills.API;
 using Paybills.API.Data;
-using Paybills.API.Entities;
 using System.Security.Cryptography;
 using System.Text;
+using Paybills.API.Domain.Entities;
+using Paybills.API.Infrastructure.Data;
 
 namespace Paybills.IntegrationTests.Fixtures
 {

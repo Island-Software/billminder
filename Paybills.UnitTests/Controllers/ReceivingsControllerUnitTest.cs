@@ -12,8 +12,6 @@ using Paybills.API.Application.Controllers;
 using Paybills.API.Application.DTOs.Receiving;
 using Paybills.API.Domain.Entities;
 using Paybills.API.Domain.Services.Interfaces;
-using Paybills.API.Helpers;
-using Paybills.API.Services;
 using Paybills.UnitTests.Utils;
 
 namespace Paybills.UnitTests.Controllers

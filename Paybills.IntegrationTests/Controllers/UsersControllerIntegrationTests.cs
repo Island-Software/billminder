@@ -6,7 +6,7 @@ using Paybills.IntegrationTests.Fixtures;
 using Xunit;
 using System.Net.Http.Json;
 using System.Net.Http.Headers;
-using Paybills.API.DTOs;
+using Paybills.API.Application.DTOs.User;
 
 namespace Paybills.IntegrationTests.Controllers
 {

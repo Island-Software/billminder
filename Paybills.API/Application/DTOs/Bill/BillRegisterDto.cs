@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Paybills.API.DTOs
+namespace Paybills.API.Application.DTOs.Bill
 {
     public class BillRegisterDto
     {

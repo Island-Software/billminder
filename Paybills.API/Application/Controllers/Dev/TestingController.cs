@@ -1,9 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
-using Paybills.API.Controllers;
+using Paybills.API.Domain.Entities;
 using Paybills.API.Domain.Services.Interfaces;
-using Paybills.API.Entities;
 
 namespace Paybills.API.Application.Controllers.Dev
 {

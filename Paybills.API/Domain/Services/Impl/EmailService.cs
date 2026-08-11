@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using Paybills.API.Application.Controllers;
+using Paybills.API.Domain.Entities;
 using Paybills.API.Domain.Services.Interfaces;
-using Paybills.API.Entities;
 using Paybills.API.Infrastructure.Services;
 
 namespace Paybills.API.Domain.Services.Impl

@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Paybills.API.DTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Paybills.API.Domain.Services.Interfaces;
+using Paybills.API.Application.DTOs.BillType;
 using Paybills.API.Domain.Entities;
+using Paybills.API.Domain.Services.Interfaces;
 
-namespace Paybills.API.Controllers
+namespace Paybills.API.Application.Controllers.Bills
 {
     [Authorize]
     public class BillTypeController : BaseApiController

@@ -1,11 +1,9 @@
-using Paybills.API.Entities;
-using Microsoft.EntityFrameworkCore;
 using System;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Paybills.API.Domain.Entities;
 
-namespace Paybills.API.Data
+namespace Paybills.API.Infrastructure.Data
 {
     public class DataContext : DbContext
     {

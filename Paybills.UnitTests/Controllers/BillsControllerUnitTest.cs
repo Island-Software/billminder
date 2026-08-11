@@ -2,15 +2,14 @@ using Moq;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Paybills.API.Controllers;
-using Paybills.API.DTOs;
 using Paybills.API.Domain.Entities;
-using Paybills.API.Helpers;
 using FluentAssertions;
 using System.Net;
+using Paybills.API.Application.Controllers.Bills;
+using Paybills.API.Application.DTOs.Bill;
 using Paybills.UnitTests.Utils;
-using Paybills.API.Services;
 using Paybills.API.Domain.Services.Interfaces;
+using Paybills.API.Infrastructure.Helpers;
 
 namespace Paybills.UnitTests.Controllers
 {

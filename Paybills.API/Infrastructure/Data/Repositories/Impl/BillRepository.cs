@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Paybills.API.Entities;
-using Paybills.API.Helpers;
-using Paybills.API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Paybills.API.Domain.Entities;
+using Paybills.API.Infrastructure.Data.Repositories.Interfaces;
+using Paybills.API.Infrastructure.Helpers;
 
-namespace Paybills.API.Data
+namespace Paybills.API.Infrastructure.Data.Repositories.Impl
 {
     public class BillRepository : RepositoryBase, IBillRepository
     {

@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Paybills.API.Domain.Entities;
 
-namespace Paybills.API.Entities
+namespace Paybills.API.Domain.Entities
 {
     public class AppUser
     {

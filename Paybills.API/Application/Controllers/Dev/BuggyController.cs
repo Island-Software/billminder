@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Paybills.API.Controllers;
 using Paybills.API.Data;
-using Paybills.API.Entities;
+using Paybills.API.Domain.Entities;
+using Paybills.API.Infrastructure.Data;
 
 namespace Paybills.API.Application.Controllers.Dev
 {

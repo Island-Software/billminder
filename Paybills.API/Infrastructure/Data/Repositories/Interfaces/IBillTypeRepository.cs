@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Paybills.API.Domain.Entities;
 
-namespace Paybills.API.Interfaces
+namespace Paybills.API.Infrastructure.Data.Repositories.Interfaces
 {
     public interface IBillTypeRepository
     {

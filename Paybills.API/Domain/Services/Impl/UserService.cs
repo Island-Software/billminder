@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
+using Paybills.API.Domain.Entities;
 using Paybills.API.Domain.Services.Interfaces;
-using Paybills.API.Entities;
-using Paybills.API.Interfaces;
+using Paybills.API.Infrastructure.Data.Repositories.Interfaces;
 
 namespace Paybills.API.Domain.Services.Impl
 {
@@ -28,7 +30,7 @@ namespace Paybills.API.Domain.Services.Impl
         }
 
         public async Task<AppUser> GetUserByUserNameAsync(string userName)
-        {
+        {            
             return await _userRepository.GetUserByUsernameAsync(userName);
         }
 

@@ -1,4 +1,4 @@
-namespace Paybills.API.DTOs.User
+namespace Paybills.API.Application.DTOs.User
 {
     public class EmailVerifyDto
     {

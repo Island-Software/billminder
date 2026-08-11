@@ -4,13 +4,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Paybills.API.Application.DTOs;
 using Paybills.API.Application.DTOs.Receiving;
-using Paybills.API.Controllers;
 using Paybills.API.Domain.Entities;
 using Paybills.API.Domain.Services.Interfaces;
-using Paybills.API.DTOs;
-using Paybills.API.Extensions;
-using Paybills.API.Helpers;
+using Paybills.API.Infrastructure.Extensions;
+using Paybills.API.Infrastructure.Helpers;
 
 namespace Paybills.API.Application.Controllers.Receivings
 {

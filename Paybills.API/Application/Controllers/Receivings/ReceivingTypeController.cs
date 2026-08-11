@@ -4,7 +4,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Paybills.API.Application.DTOs.ReceivingType;
-using Paybills.API.Controllers;
 using Paybills.API.Domain.Entities;
 using Paybills.API.Domain.Services.Interfaces;
 

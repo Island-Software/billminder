@@ -1,13 +1,14 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Paybills.API.DTOs;
-using Paybills.API.Entities;
-using Paybills.API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Paybills.API.Application.DTOs.User;
+using Paybills.API.Domain.Entities;
 using Paybills.API.Domain.Services.Interfaces;
+using Paybills.API.Infrastructure.Services.Interfaces;
 
-namespace Paybills.API.Controllers
+namespace Paybills.API.Application.Controllers.Users
 {
     public class AccountController : BaseApiController
     {
@@ -15,12 +16,14 @@ namespace Paybills.API.Controllers
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
         private readonly IEmailService _emailService;
+        private readonly ILogger<AccountController> _logger;
         
-        public AccountController(IUserService userService, ITokenService tokenService, IEmailService emailService)
+        public AccountController(IUserService userService, ITokenService tokenService, IEmailService emailService, ILogger<AccountController> logger)
         {
             _tokenService = tokenService;
             _userService = userService;
             _emailService = emailService;
+            _logger = logger;
         }
         
         [HttpPost("register")]
@@ -55,6 +58,11 @@ namespace Paybills.API.Controllers
         [HttpPost("login")]        
         public async Task<ActionResult<LoginResultDto>> Login(LoginDto loginDto)
         {
+            var sanitizedUserNameForLog = (loginDto.UserName ?? string.Empty)
+                .Replace("\r", string.Empty)
+                .Replace("\n", string.Empty);
+            _logger.LogInformation("Login attempt for user {Username}", sanitizedUserNameForLog);
+            
             var user = await _userService.GetUserByUserNameAsync(loginDto.UserName);
 
             if (user == null) return Unauthorized("Invalid username/password");

@@ -1,12 +1,13 @@
 using System.Linq;
-using Paybills.API.DTOs;
-using Paybills.API.Entities;
 using AutoMapper;
-using Paybills.API.Domain.Entities;
-using Paybills.API.Application.DTOs.ReceivingType;
+using Paybills.API.Application.DTOs.Bill;
+using Paybills.API.Application.DTOs.BillType;
 using Paybills.API.Application.DTOs.Receiving;
+using Paybills.API.Application.DTOs.ReceivingType;
+using Paybills.API.Application.DTOs.User;
+using Paybills.API.Domain.Entities;
 
-namespace Paybills.API.Helpers
+namespace Paybills.API.Infrastructure.Helpers
 {
     public class AutoMapperProfiles : Profile
     {

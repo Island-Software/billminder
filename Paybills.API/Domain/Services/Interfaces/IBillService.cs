@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Paybills.API.Domain.Entities;
-using Paybills.API.Helpers;
+using Paybills.API.Infrastructure.Helpers;
 
 namespace Paybills.API.Domain.Services.Interfaces
 {

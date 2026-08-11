@@ -1,6 +1,7 @@
 using System;
+using Paybills.API.Application.DTOs.BillType;
 
-namespace Paybills.API.DTOs
+namespace Paybills.API.Application.DTOs.Bill
 {
     public class BillDto
     {

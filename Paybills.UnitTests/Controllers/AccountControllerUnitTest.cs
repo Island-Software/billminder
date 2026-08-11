@@ -1,8 +1,5 @@
 using FluentAssertions;
 using Moq;
-using Paybills.API.Controllers;
-using Paybills.API.DTOs;
-using Paybills.API.Interfaces;
 
 namespace Paybills.UnitTests.Controllers;
 

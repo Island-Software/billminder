@@ -8,7 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Paybills.API.Data;
+using Paybills.API.Infrastructure.Data;
 using Paybills.API.Infrastructure.Helpers;
+using Serilog;
+using Serilog.Sinks.Grafana.Loki;
 // using Serilog;
 // using Serilog.Events;
 // using Serilog.Sinks.Elasticsearch;
@@ -28,11 +31,14 @@ namespace Paybills.API
 
             var host = CreateHostBuilder(args).Build();
 
+            
+
             using (var scope = host.Services.CreateScope())
             {
                 try
                 {
                     var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+                    Log.Information("Starting database migration...");
                     await context.Database.MigrateAsync();
                     // await Seed.SeedUsers(context);
                 }
@@ -59,6 +65,17 @@ namespace Paybills.API
                 .Build();
 
 
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .WriteTo.GrafanaLoki(
+                    "http://localhost:3100",
+                    labels:
+                    [
+                        new LokiLabel { Key = "application", Value = "paybills-api" },
+                        new LokiLabel { Key = "environment", Value = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production" }
+                    ])
+                .CreateLogger();
 
             // Log.Logger = new LoggerConfiguration()
             // //     .Enrich.FromLogContext()
@@ -85,6 +102,7 @@ namespace Paybills.API
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

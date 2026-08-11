@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Paybills.API.Application.DTOs.Bill;
 
-namespace Paybills.API.DTOs
+namespace Paybills.API.Application.DTOs.User
 {
     public class UserDto
     {

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Paybills.API.Entities;
-using Paybills.API.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Paybills.API.Domain.Entities;
+using Paybills.API.Infrastructure.Services.Interfaces;
 
-namespace Paybills.API.Services
+namespace Paybills.API.Infrastructure.Services.Impl
 {
     public class TokenService : ITokenService
     {
@@ -16,7 +16,7 @@ namespace Paybills.API.Services
 
         public TokenService(IConfiguration configuration)
         {
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("TOKEN_KEY")));
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("TOKEN_KEY") ?? ""));
         }
 
         public string CreateToken(AppUser user, int expirationTimeInDays)

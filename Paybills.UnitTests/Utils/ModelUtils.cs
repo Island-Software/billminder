@@ -1,9 +1,9 @@
 using System.Collections;
+using Paybills.API.Application.DTOs.Bill;
 using Paybills.API.Application.DTOs.Receiving;
 using Paybills.API.Application.DTOs.ReceivingType;
 using Paybills.API.Domain.Entities;
-using Paybills.API.DTOs;
-using Paybills.API.Helpers;
+using Paybills.API.Infrastructure.Helpers;
 
 namespace Paybills.UnitTests.Utils;
 

@@ -4,10 +4,10 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Paybills.API.Entities;
 using Microsoft.EntityFrameworkCore;
+using Paybills.API.Domain.Entities;
 
-namespace Paybills.API.Data
+namespace Paybills.API.Infrastructure.Data
 {
     public class Seed
     {
