@@ -78,6 +78,8 @@ namespace Paybills.API.Application.Controllers.Users
 
             if (validateEmail)
                 await SendEmailVerification(user);
+            
+            user.CopyBillsValues = userDto.CopyBillsValues;
 
             await _userRepository.UpdateAsync(user);
 

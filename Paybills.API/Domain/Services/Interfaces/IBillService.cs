@@ -10,7 +10,7 @@ namespace Paybills.API.Domain.Services.Interfaces
         Task<bool> Create(Bill bill);
         Task<bool> Delete(Bill bill);
         Task<bool> Update(Bill bill);
-        Task<bool> CopyBillsToNextMonth(int userId, int currentMonth, int currentYear);
+        Task<bool> CopyBillsToNextMonth(int userId, int currentMonth, int currentYear, bool copyValues);
         Task<PagedList<Bill>> GetBillsAsync(string username, UserParams userParams);
         Task<PagedList<Bill>> GetBillsByDateAsync(string username, int month, int year, UserParams userParams);
         Task<List<Bill>> GetBillsByDateAsync(string username, int month, int year);

@@ -145,7 +145,8 @@ namespace Paybills.API.Application.Controllers.Bills
         [HttpPost("copy")]
         public async Task<ActionResult> CopyBillsToNextMonth(PeriodDataDto periodData)
         {
-            await _service.CopyBillsToNextMonth(periodData.UserId, periodData.CurrentMonth, periodData.CurrentYear);            
+            await _service.CopyBillsToNextMonth(periodData.UserId, periodData.CurrentMonth, periodData.CurrentYear, 
+                periodData.CopyValues);            
 
             return Ok();
         }

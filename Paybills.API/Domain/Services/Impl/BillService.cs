@@ -20,7 +20,10 @@ namespace Paybills.API.Domain.Services.Impl
 
         public async Task<bool> AddBillToUser(int userId, int billId) => await _repository.AddBillToUserAsync(userId, billId);
 
-        public async Task<bool> CopyBillsToNextMonth(int userId, int currentMonth, int currentYear) => await _repository.CopyBillsToNextMonthAsync(userId, currentMonth, currentYear);
+        public async Task<bool> CopyBillsToNextMonth(int userId, int currentMonth, int currentYear, bool copyValues)
+        {
+            return await _repository.CopyBillsToNextMonthAsync(userId, currentMonth, currentYear, copyValues);
+        }
 
         public async Task<bool> Create(Bill bill) => await _repository.CreateAsync(bill);
 
