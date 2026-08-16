@@ -16,5 +16,6 @@ namespace Paybills.API.Domain.Entities
         public string Email { get; set; }
         public string EmailToken { get; set; }
         public bool EmailValidated { get; set; }
+        public bool CopyBillsValues { get; set; }
     }
 }
