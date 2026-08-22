@@ -54,10 +54,8 @@
     <Folder Include="Application\" />
     <Folder Include="Domain\" />
     <Folder Include="Infrastructure\" />
-    <Folder Include="Application\Controllers\" />
     <Folder Include="Infrastructure\Data\" />
     <Folder Include="Domain\Entities\" />
-    <Folder Include="Application\DTOs\" />
     <Folder Include="Infrastructure\Errors\" />
     <Folder Include="Infrastructure\Middleware\" />
     <Folder Include="Infrastructure\Services\" />

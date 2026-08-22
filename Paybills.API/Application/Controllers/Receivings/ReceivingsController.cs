@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Paybills.API.Application.DTOs;
 using Paybills.API.Application.DTOs.Receiving;
+using Paybills.API.Application.DTOs.Utils;
 using Paybills.API.Domain.Entities;
 using Paybills.API.Domain.Services.Interfaces;
 using Paybills.API.Infrastructure.Extensions;

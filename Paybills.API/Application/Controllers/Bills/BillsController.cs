@@ -142,15 +142,6 @@ namespace Paybills.API.Application.Controllers.Bills
             return Ok();
         }
 
-        [HttpPost("copy")]
-        public async Task<ActionResult> CopyBillsToNextMonth(PeriodDataDto periodData)
-        {
-            await _service.CopyBillsToNextMonth(periodData.UserId, periodData.CurrentMonth, periodData.CurrentYear, 
-                periodData.CopyValues);            
-
-            return Ok();
-        }
-
         // TO-DO: create an out property for the found object
         private async Task<bool> BillExists(int id)
         {
