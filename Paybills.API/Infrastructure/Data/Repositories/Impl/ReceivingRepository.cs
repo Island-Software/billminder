@@ -58,7 +58,7 @@ namespace Paybills.API.Infrastructure.Data.Repositories.Impl
             return await receivings.ToListAsync();
         }
 
-        public async Task<bool> CopyToNextMonthAsync(int userId, int currentMonth, int currentYear)
+        public async Task<bool> CopyToNextMonthAsync(int userId, int currentMonth, int currentYear, bool copyValues)
         {
             var receivings = await GetAsync(userId, currentMonth, currentYear);
             var newReceivings = new List<Receiving>();
@@ -69,6 +69,8 @@ namespace Paybills.API.Infrastructure.Data.Repositories.Impl
                 var receivingType = await _receivingTypeRepository.GetByIdAsync(receiving.ReceivingType.Id);
 
                 newReceiving.ReceivingType = receivingType;
+                if (copyValues)
+                    newReceiving.Value = receiving.Value;
                 newReceiving.Month = receiving.Month == 12 ? 1 : receiving.Month + 1;
                 newReceiving.Year = receiving.Month == 12 ? receiving.Year + 1 : receiving.Year;
 

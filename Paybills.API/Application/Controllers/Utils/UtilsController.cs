@@ -7,19 +7,12 @@ using Paybills.API.Domain.Services.Interfaces;
 namespace Paybills.API.Application.Controllers.Utils;
 
 [Authorize]
-public class UtilsController : BaseApiController
+public class UtilsController(IUtilsService utilsService) : BaseApiController
 {
-    private readonly IBillService _service;
-
-    public UtilsController(IBillService billService)
-    {
-        _service =  billService;
-    }
-        
     [HttpPost("copy")]
-    public async Task<ActionResult> CopyBillsToNextMonth(PeriodDataDto periodData)
+    public async Task<ActionResult> CopyBillsAndReceivingsToNextMonth(PeriodDataDto periodData)
     {
-        await _service.CopyBillsToNextMonth(periodData.UserId, periodData.CurrentMonth, periodData.CurrentYear, 
+        await utilsService.CopyBillsAndReceivingsToNextMonth(periodData.UserId, periodData.CurrentMonth, periodData.CurrentYear, 
             periodData.CopyValues);            
 
         return Ok();
