@@ -11,7 +11,7 @@ namespace Paybills.API.Infrastructure.Data.Repositories.Interfaces
         Task<bool> CreateAsync(Bill bill);
         Task<bool> DeleteAsync(Bill bill);
         Task<bool> UpdateAsync(Bill bill);
-        Task<bool> CopyBillsToNextMonthAsync(int userId, int currentMonth, int currentYear, bool copyValues);
+        Task<bool> CopyToNextMonthAsync(int userId, int currentMonth, int currentYear, bool copyValues);
         Task<bool> SaveAllAsync();
         Task<PagedList<Bill>> GetBillsAsync(string username, UserParams userParams);
         Task<PagedList<Bill>> GetBillsByDateAsync(string username, int month, int year, UserParams userParams);

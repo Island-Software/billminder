@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Paybills.API.Domain.Services.Interfaces;
 using Paybills.API.Domain.Entities;
 using System.Security.Claims;
-using Paybills.API.Application.DTOs;
 using Paybills.API.Application.DTOs.Bill;
 using Paybills.API.Infrastructure.Extensions;
 using Paybills.API.Infrastructure.Helpers;
@@ -14,19 +13,9 @@ using Paybills.API.Infrastructure.Helpers;
 namespace Paybills.API.Application.Controllers.Bills
 {
     [Authorize]
-    public class BillsController : BaseApiController
+    public class BillsController(IBillService billService, IBillTypeService billTypesRepository, IMapper mapper)
+        : BaseApiController
     {
-        private readonly IBillService _service;
-        private readonly IBillTypeService _billTypeService;
-        private readonly IMapper _mapper;
-
-        public BillsController(IBillService billService, IBillTypeService billTypesRepository, IMapper mapper)
-        {            
-            _mapper = mapper;
-            _service = billService;
-            _billTypeService = billTypesRepository;
-        }
-
         [HttpGet]
         [Route("name/{username}")]
         public async Task<ActionResult<IEnumerable<BillDto>>> GetBills(string username, [FromQuery] UserParams userParams)
@@ -38,11 +27,11 @@ namespace Paybills.API.Application.Controllers.Bills
                 return Unauthorized("You are not authorized to access this resource.");
             }
 
-            var bills = await _service.GetBillsAsync(username, userParams);
+            var bills = await billService.GetBillsAsync(username, userParams);
 
             Response.AddPaginationHeader(bills.CurrentPage, bills.PageSize, bills.TotalCount, bills.TotalPages);
 
-            var billsToReturn = _mapper.Map<IEnumerable<BillDto>>(bills);            
+            var billsToReturn = mapper.Map<IEnumerable<BillDto>>(bills);            
 
             return Ok(billsToReturn);
         }
@@ -60,19 +49,19 @@ namespace Paybills.API.Application.Controllers.Bills
 
             if (userParams.PageSize > 0)
             {
-                var bills = await _service.GetBillsByDateAsync(username, month, year, userParams);
+                var bills = await billService.GetBillsByDateAsync(username, month, year, userParams);
 
                 Response.AddPaginationHeader(bills.CurrentPage, bills.PageSize, bills.TotalCount, bills.TotalPages);
 
-                var billsToReturn = _mapper.Map<IEnumerable<BillDto>>(bills);
+                var billsToReturn = mapper.Map<IEnumerable<BillDto>>(bills);
 
                 return Ok(billsToReturn);
             }
             else
             {
-                var bills = await _service.GetBillsByDateAsync(username, month, year);
+                var bills = await billService.GetBillsByDateAsync(username, month, year);
 
-                var billsToReturn = _mapper.Map<IEnumerable<BillDto>>(bills);
+                var billsToReturn = mapper.Map<IEnumerable<BillDto>>(bills);
 
                 return Ok(billsToReturn);
             }
@@ -81,18 +70,18 @@ namespace Paybills.API.Application.Controllers.Bills
         [HttpGet("{id}")]
         public async Task<ActionResult<Bill>> GetBill(int id)
         {
-            var result = await _service.GetBillByIdAsync(id);
+            var result = await billService.GetBillByIdAsync(id);
             return Ok(result);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var bill = await _service.GetBillByIdAsync(id);
+            var bill = await billService.GetBillByIdAsync(id);
 
             if (bill == null) return NotFound();
 
-            await _service.Delete(bill);
+            await billService.Delete(bill);
 
             return Ok();
         }
@@ -100,7 +89,7 @@ namespace Paybills.API.Application.Controllers.Bills
         [HttpPost("create")]
         public async Task<ActionResult<BillDto>> Create(BillRegisterDto bill)
         {
-            var billType = await _billTypeService.GetByIdAsync(bill.TypeId);
+            var billType = await billTypesRepository.GetByIdAsync(bill.TypeId);
 
             if (billType == null) return BadRequest($"Bill type of id {bill.TypeId} not found");
 
@@ -114,10 +103,10 @@ namespace Paybills.API.Application.Controllers.Bills
                 Paid = bill.Paid
             };
 
-            await _service.Create(newBill);
-            await _service.AddBillToUser(bill.UserId, newBill.Id);
+            await billService.Create(newBill);
+            await billService.AddBillToUser(bill.UserId, newBill.Id);
 
-            var billToReturn = _mapper.Map<BillDto>(newBill);
+            var billToReturn = mapper.Map<BillDto>(newBill);
 
             return CreatedAtAction(nameof(GetBill), new { id = billToReturn.Id }, billToReturn);
         }
@@ -128,7 +117,7 @@ namespace Paybills.API.Application.Controllers.Bills
             if (!await BillExists(id))
                 return NotFound();
 
-            var repoBill = await _service.GetBillByIdAsync(id);
+            var repoBill = await billService.GetBillByIdAsync(id);
 
             // TO-DO: add automapper to project
             repoBill.Value = bill.Value;
@@ -137,16 +126,7 @@ namespace Paybills.API.Application.Controllers.Bills
             repoBill.Year = bill.Year;
             repoBill.Paid = bill.Paid;
 
-            await _service.Update(repoBill);
-
-            return Ok();
-        }
-
-        [HttpPost("copy")]
-        public async Task<ActionResult> CopyBillsToNextMonth(PeriodDataDto periodData)
-        {
-            await _service.CopyBillsToNextMonth(periodData.UserId, periodData.CurrentMonth, periodData.CurrentYear, 
-                periodData.CopyValues);            
+            await billService.Update(repoBill);
 
             return Ok();
         }
@@ -154,7 +134,7 @@ namespace Paybills.API.Application.Controllers.Bills
         // TO-DO: create an out property for the found object
         private async Task<bool> BillExists(int id)
         {
-            return await _service.GetBillByIdAsync(id) != null;
+            return await billService.GetBillByIdAsync(id) != null;
         }
     }
 }

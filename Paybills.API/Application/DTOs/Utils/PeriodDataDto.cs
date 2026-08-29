@@ -1,4 +1,4 @@
-namespace Paybills.API.Application.DTOs
+namespace Paybills.API.Application.DTOs.Utils
 {
     public class PeriodDataDto
     {

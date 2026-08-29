@@ -12,7 +12,7 @@ namespace Paybills.API.Application.Controllers.Users
 {
     public class AccountController : BaseApiController
     {
-        private const int EXPIRATION_TIME_IN_DAYS = 7;
+        private const int ExpirationTimeInDays = 2;
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
         private readonly IEmailService _emailService;
@@ -50,7 +50,7 @@ namespace Paybills.API.Application.Controllers.Users
             return new LoginResultDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user, EXPIRATION_TIME_IN_DAYS),
+                Token = _tokenService.CreateToken(user, ExpirationTimeInDays),
                 UserId = user.Id
             };
         }
@@ -83,7 +83,7 @@ namespace Paybills.API.Application.Controllers.Users
             return new LoginResultDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user, EXPIRATION_TIME_IN_DAYS),
+                Token = _tokenService.CreateToken(user, ExpirationTimeInDays),
                 UserId = user.Id
             };
         }

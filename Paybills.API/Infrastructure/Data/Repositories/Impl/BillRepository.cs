@@ -124,7 +124,7 @@ namespace Paybills.API.Infrastructure.Data.Repositories.Impl
             return await SaveAllAsync();
         }
 
-        public async Task<bool> CopyBillsToNextMonthAsync(int userId, int currentMonth, int currentYear, bool copyValues)
+        public async Task<bool> CopyToNextMonthAsync(int userId, int currentMonth, int currentYear, bool copyValues)
         {
             var sourceBills = await GetBillsAsync(userId, currentMonth, currentYear);
             var newBills = new List<Bill>();

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Paybills.API.Application.DTOs;
 using Paybills.API.Application.DTOs.Receiving;
 using Paybills.API.Domain.Entities;
 using Paybills.API.Domain.Services.Interfaces;
@@ -14,21 +13,12 @@ using Paybills.API.Infrastructure.Helpers;
 namespace Paybills.API.Application.Controllers.Receivings
 {
     [Authorize]
-    public class ReceivingsController : BaseApiController
+    public class ReceivingsController(
+        IReceivingService receivingService,
+        IMapper mapper,
+        IReceivingTypeService receivingTypeService)
+        : BaseApiController
     {
-        private readonly IReceivingService _receivingService;
-        private readonly IMapper _mapper;
-        private readonly IReceivingTypeService _receivingTypeService;
-        // private readonly IUserService _userService;
-
-        public ReceivingsController(IReceivingService receivingService, IMapper mapper, IReceivingTypeService receivingTypeService)
-        {
-            _receivingService = receivingService;
-            _mapper = mapper;
-            _receivingTypeService = receivingTypeService;
-        }
-
-
         [HttpGet]
         [Route("name/{username}")]
         public async Task<ActionResult<IEnumerable<ReceivingDto>>> GetReceivings(string username, [FromQuery] UserParams userParams)
@@ -40,11 +30,11 @@ namespace Paybills.API.Application.Controllers.Receivings
                 return Unauthorized("You are not authorized to access this resource.");
             }
             
-            var receivings = await _receivingService.GetAsync(username, userParams);
+            var receivings = await receivingService.GetAsync(username, userParams);
 
             Response.AddPaginationHeader(receivings.CurrentPage, receivings.PageSize, receivings.TotalCount, receivings.TotalPages);
 
-            var receivingsToReturn = _mapper.Map<IEnumerable<ReceivingDto>>(receivings);
+            var receivingsToReturn = mapper.Map<IEnumerable<ReceivingDto>>(receivings);
 
             return Ok(receivingsToReturn);
         }
@@ -62,19 +52,19 @@ namespace Paybills.API.Application.Controllers.Receivings
             
             if (userParams.PageSize > 0)
             {
-                var receivings = await _receivingService.GetByDateAsync(username, month, year, userParams);
+                var receivings = await receivingService.GetByDateAsync(username, month, year, userParams);
 
                 Response.AddPaginationHeader(receivings.CurrentPage, receivings.PageSize, receivings.TotalCount, receivings.TotalPages);
 
-                var receivingsToReturn = _mapper.Map<IEnumerable<ReceivingDto>>(receivings);
+                var receivingsToReturn = mapper.Map<IEnumerable<ReceivingDto>>(receivings);
 
                 return Ok(receivingsToReturn);
             }
             else
             {
-                var receivings = await _receivingService.GetByDateAsync(username, month, year);
+                var receivings = await receivingService.GetByDateAsync(username, month, year);
 
-                var receivingsToReturn = _mapper.Map<IEnumerable<ReceivingDto>>(receivings);
+                var receivingsToReturn = mapper.Map<IEnumerable<ReceivingDto>>(receivings);
 
                 return Ok(receivingsToReturn);
             }
@@ -83,7 +73,7 @@ namespace Paybills.API.Application.Controllers.Receivings
         [HttpGet("{id}")]
         public async Task<ActionResult<ReceivingDto>> GetReceiving(int id)
         {
-            var result = await _receivingService.GetByIdAsync(id);
+            var result = await receivingService.GetByIdAsync(id);
             
             return Ok(result);
         }
@@ -91,11 +81,11 @@ namespace Paybills.API.Application.Controllers.Receivings
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var receiving = await _receivingService.GetByIdAsync(id);
+            var receiving = await receivingService.GetByIdAsync(id);
 
             if (receiving == null) return NotFound();
 
-            await _receivingService.Delete(receiving);
+            await receivingService.Delete(receiving);
 
             return Ok();
         }
@@ -103,17 +93,17 @@ namespace Paybills.API.Application.Controllers.Receivings
         [HttpPost]
         public async Task<ActionResult<ReceivingDto>> Create(ReceivingRegisterDto receivingRegisterDto)
         {
-            var reeceivingType = await _receivingTypeService.GetByIdAsync(receivingRegisterDto.TypeId);
+            var receivingType = await receivingTypeService.GetByIdAsync(receivingRegisterDto.TypeId);
 
-            if (reeceivingType == null) return BadRequest($"Receiving type of id {receivingRegisterDto.TypeId} not found");
+            if (receivingType == null) return BadRequest($"Receiving type of id {receivingRegisterDto.TypeId} not found");
 
-            Receiving newReceiving = _mapper.Map<Receiving>(receivingRegisterDto);
-            newReceiving.ReceivingType = reeceivingType;
+            Receiving newReceiving = mapper.Map<Receiving>(receivingRegisterDto);
+            newReceiving.ReceivingType = receivingType;
 
-            await _receivingService.Create(newReceiving);
-            await _receivingService.AddToUser(receivingRegisterDto.UserId, newReceiving.Id);
+            await receivingService.Create(newReceiving);
+            await receivingService.AddToUser(receivingRegisterDto.UserId, newReceiving.Id);
 
-            var receivingToReturn = _mapper.Map<ReceivingDto>(newReceiving);
+            var receivingToReturn = mapper.Map<ReceivingDto>(newReceiving);
 
             return CreatedAtAction(nameof(GetReceiving), new { id = receivingToReturn.Id }, receivingToReturn);
         }
@@ -124,19 +114,11 @@ namespace Paybills.API.Application.Controllers.Receivings
             if (!await ReceivingExists(id))
                 return NotFound();
 
-            var repoReceiving = await _receivingService.GetByIdAsync(id);
+            var repoReceiving = await receivingService.GetByIdAsync(id);
 
-            _mapper.Map(receivingRegisterDto, repoReceiving);
+            mapper.Map(receivingRegisterDto, repoReceiving);
 
-            await _receivingService.Update(repoReceiving);
-
-            return Ok();
-        }
-
-        [HttpPost("copy")]
-        public async Task<ActionResult> CopyToNextMonth(PeriodDataDto periodData)
-        {
-            await _receivingService.CopyToNextMonth(periodData.UserId, periodData.CurrentMonth, periodData.CurrentYear);            
+            await receivingService.Update(repoReceiving);
 
             return Ok();
         }
@@ -144,7 +126,7 @@ namespace Paybills.API.Application.Controllers.Receivings
         // TO-DO: create an out property for the found object
         private async Task<bool> ReceivingExists(int id)
         {
-            return await _receivingService.GetByIdAsync(id) != null;
+            return await receivingService.GetByIdAsync(id) != null;
         }
     }
 }

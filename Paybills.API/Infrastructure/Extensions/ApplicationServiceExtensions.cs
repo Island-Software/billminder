@@ -34,6 +34,7 @@ namespace Paybills.API.Infrastructure.Extensions
             services.AddScoped<IReceivingRepository, ReceivingRepository>();
             services.AddScoped<IReceivingTypeRepository, ReceivingTypeRepository>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IUtilsService, UtilsService>();
 
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 

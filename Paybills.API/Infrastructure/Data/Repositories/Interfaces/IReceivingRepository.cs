@@ -10,7 +10,7 @@ namespace Paybills.API.Infrastructure.Data.Repositories.Interfaces
         Task<bool> CreateAsync(Receiving entity);
         Task<bool> DeleteAsync(Receiving entity);
         Task<bool> UpdateAsync(Receiving entity);
-        Task<bool> CopyToNextMonthAsync(int userId, int currentMonth, int currentYear);
+        Task<bool> CopyToNextMonthAsync(int userId, int currentMonth, int currentYear, bool copyValues);
         Task<bool> SaveAllAsync();
         Task<PagedList<Receiving>> GetAsync(string username, UserParams userParams);
         Task<PagedList<Receiving>> GetByDateAsync(string username, int month, int year, UserParams userParams);
