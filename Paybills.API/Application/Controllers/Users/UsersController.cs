@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,6 +51,17 @@ namespace Paybills.API.Application.Controllers.Users
             return _mapper.Map<UserEditDto>(await _userRepository.GetUserByUserNameWithDetailsAsync(username));
         }
 
+        [HttpGet]
+        [Route("settings")]
+        public async Task<ActionResult<UserSettings>> GetUserSettings()
+        {
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var user = await _userRepository.GetUserByUserNameAsync(username);
+
+            return user.Settings;
+        }
+
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, UserEditDto userDto)
         {
@@ -78,8 +91,9 @@ namespace Paybills.API.Application.Controllers.Users
 
             if (validateEmail)
                 await SendEmailVerification(user);
-            
-            user.CopyBillsValues = userDto.CopyBillsValues;
+
+            Console.Out.WriteLine(userDto.Settings);
+            user.Settings =  userDto.Settings;
 
             await _userRepository.UpdateAsync(user);
 

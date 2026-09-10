@@ -1,4 +1,5 @@
 using System;
+using Paybills.API.Domain.Entities;
 
 namespace Paybills.API.Application.DTOs.User
 {
@@ -9,6 +10,6 @@ namespace Paybills.API.Application.DTOs.User
         public DateTime LastActive { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public bool CopyBillsValues { get; set; }
+        public UserSettings Settings { get; set; }
     }
 }

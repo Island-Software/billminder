@@ -31,7 +31,8 @@ namespace Paybills.API.Infrastructure.Services.Impl
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(expirationTimeInDays),
+                // Expires = DateTime.Now.AddDays(expirationTimeInDays),
+                Expires = DateTime.UtcNow.AddMinutes(1),
                 SigningCredentials = credentials
             };
 

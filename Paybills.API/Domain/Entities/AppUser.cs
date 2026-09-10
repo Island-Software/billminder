@@ -9,13 +9,13 @@ namespace Paybills.API.Domain.Entities
         public string UserName { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
-        public DateTime Created { get; set; } = DateTime.Now;
-        public DateTime LastActive { get; set; } = DateTime.Now;
+        public DateTime Created { get; set; } = DateTime.UtcNow;
+        public DateTime LastActive { get; set; } = DateTime.UtcNow;
         public ICollection<Bill> Bills { get; set; }
         public ICollection<Receiving> Receivings { get; set; }
         public string Email { get; set; }
         public string EmailToken { get; set; }
         public bool EmailValidated { get; set; }
-        public bool CopyBillsValues { get; set; }
+        public UserSettings  Settings { get; set; }
     }
 }
