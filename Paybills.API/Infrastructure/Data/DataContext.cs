@@ -22,6 +22,15 @@ namespace Paybills.API.Infrastructure.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AppUser>()
+                .OwnsOne(u => u.Settings, builder =>
+                {
+                    builder.ToJson();
+                });
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Only configure if not already configured (e.g., by dependency injection or tests)
@@ -47,6 +56,5 @@ namespace Paybills.API.Infrastructure.Data
         public DbSet<Bill> Bills { get; set; }
         public DbSet<ReceivingType> ReceivingTypes { get; set; }
         public DbSet<Receiving> Receivings { get; set; }
-
     }
 }
